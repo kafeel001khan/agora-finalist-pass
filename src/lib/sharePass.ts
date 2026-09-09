@@ -6,7 +6,7 @@ export function buildLinkedInCaption(pass: PassRecord): string {
   return [
     "I'm a Grand Finalist ⚡",
     "",
-    `${EVENT.nameDisplay} ${EVENT.passSubtitle} — ${EVENT.passTitleGradient} ${EVENT.passTitleBold}`,
+    `${EVENT.nameDisplay} ${EVENT.passSubtitle} — ${EVENT.passTitle}`,
     `${EVENT.date} · ${EVENT.venueLine1} ${EVENT.venueLine2}`,
     "",
     `Grand Finalist: ${pass.name}`,

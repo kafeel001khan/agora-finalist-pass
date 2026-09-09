@@ -110,8 +110,7 @@ export function FinalistPassPreview({ name, teamName, passId, photoUrl }: Props)
           <p className="badge-event">{EVENT.name}</p>
 
           <div className="badge-title">
-            <span className="badge-title__gradient">{EVENT.passTitleGradient}</span>
-            <span className="badge-title__pass">{EVENT.passTitleBold}</span>
+            <span className="badge-title__hero">{EVENT.passTitle}</span>
           </div>
 
           <div className="badge-finale">

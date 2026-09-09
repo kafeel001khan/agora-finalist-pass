@@ -6,8 +6,7 @@ export const EVENT = {
   name: "ECHOSPHERE 2026",
   nameDisplay: "EchoSphere",
   hackathonLabel: "HACKATHON 2026",
-  passTitleGradient: "GRAND FINALIST",
-  passTitleBold: "PASS",
+  passTitle: "GRAND FINALIST",
   passSubtitle: "FINALE",
   sideTagline: "IDEAS · PEOPLE · CONVERSATIONS · REAL IMPACT",
   sideFooter: "A MORE OPEN INTELLIGENT TOMORROW",
@@ -43,5 +42,5 @@ export const LIMITS = {
   maxPhotoBytes: 5 * 1024 * 1024,
   passPhotoSize: 480,
   passExportWidth: 640,
-  passExportHeight: 594,
+  passExportHeight: 560,
 } as const;

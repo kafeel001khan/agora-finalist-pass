@@ -15,7 +15,7 @@ const FINALE_PHOTO_GAP = 16;
 function getPassCardLayout() {
   const brandTop = CARD_PAD;
   const contentTop = brandTop + 60;
-  const finaleTextY = contentTop + 106;
+  const finaleTextY = contentTop + 72;
   const photoY = finaleTextY + FINALE_PHOTO_GAP + PHOTO_RADIUS;
   const metaY = photoY + 128;
   const qrY = metaY + 48;
@@ -87,10 +87,7 @@ async function drawPassCard(
   ctx.font = '700 13px "DM Sans", system-ui, sans-serif';
   ctx.fillText(EVENT.name, cx, contentTop);
 
-  fillGradientTextCentered(ctx, EVENT.passTitleGradient, cx, contentTop + 40, 34, "900");
-  ctx.fillStyle = BRAND.ink;
-  ctx.font = '900 50px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.passTitleBold, cx, contentTop + 88);
+  fillGradientTextCentered(ctx, EVENT.passTitle, cx, contentTop + 38, 44, "900");
 
   const finaleLineY = finaleTextY - 4;
   ctx.strokeStyle = "rgba(15,23,42,0.18)";

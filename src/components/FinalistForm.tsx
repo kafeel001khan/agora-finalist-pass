@@ -39,7 +39,7 @@ export function FinalistForm({
       <h1 className="hero-title">
         Create Your
         <br />
-        <span className="grad">Grand Finalist Pass</span>
+        <span className="grad">Grand Finalist</span>
       </h1>
       <p className="hero-subtitle">{EVENT.subtitle}</p>
 

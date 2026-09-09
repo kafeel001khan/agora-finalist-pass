@@ -486,9 +486,19 @@ body {
 
 .badge-title {
   position: relative;
-  display: grid;
-  gap: 2px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.badge-title__hero {
+  display: block;
+  font-size: clamp(1.45rem, 6.2vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.05;
+  background: linear-gradient(90deg, var(--blue), var(--violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .badge-title__gradient {
