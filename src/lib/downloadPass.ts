@@ -8,6 +8,22 @@ import { drawQr } from "./qr";
 
 export const CARD_EXPORT_WIDTH = 640;
 
+const CARD_PAD = 24;
+const PHOTO_RADIUS = 50;
+const FINALE_PHOTO_GAP = 16;
+
+function getPassCardLayout() {
+  const brandTop = CARD_PAD;
+  const contentTop = brandTop + 60;
+  const finaleTextY = contentTop + 106;
+  const photoY = finaleTextY + FINALE_PHOTO_GAP + PHOTO_RADIUS;
+  const metaY = photoY + 128;
+  const qrY = metaY + 48;
+  const footerTop = qrY + 88;
+  const height = footerTop + 50 + CARD_PAD;
+  return { brandTop, contentTop, finaleTextY, photoY, metaY, qrY, footerTop, height };
+}
+
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -45,7 +61,8 @@ async function drawPassCard(
   const x = 0;
   const y = 0;
   const cx = w / 2;
-  const pad = 24;
+  const pad = CARD_PAD;
+  const layout = getPassCardLayout();
 
   roundRect(ctx, x, y, w, h, 24);
   ctx.fillStyle = "#ffffff";
@@ -54,7 +71,7 @@ async function drawPassCard(
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  const brandTop = y + pad;
+  const { brandTop, contentTop, finaleTextY, photoY, metaY, qrY, footerTop } = layout;
   drawAgoraBrand(ctx, x + pad, brandTop);
   drawEchoSphereBrand(ctx, x + w - pad, brandTop);
 
@@ -64,8 +81,8 @@ async function drawPassCard(
   ctx.lineTo(x + w - pad, brandTop + 46);
   ctx.stroke();
 
-  const contentTop = brandTop + 60;
   ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "#334155";
   ctx.font = '700 13px "DM Sans", system-ui, sans-serif';
   ctx.fillText(EVENT.name, cx, contentTop);
@@ -75,21 +92,21 @@ async function drawPassCard(
   ctx.font = '900 50px "DM Sans", system-ui, sans-serif';
   ctx.fillText(EVENT.passTitleBold, cx, contentTop + 88);
 
+  const finaleLineY = finaleTextY - 4;
   ctx.strokeStyle = "rgba(15,23,42,0.18)";
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(x + pad + 36, contentTop + 102);
-  ctx.lineTo(x + pad + 92, contentTop + 102);
+  ctx.moveTo(x + pad + 36, finaleLineY);
+  ctx.lineTo(x + pad + 92, finaleLineY);
   ctx.stroke();
   ctx.font = '700 11px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.passSubtitle, cx, contentTop + 106);
+  ctx.fillText(EVENT.passSubtitle, cx, finaleTextY);
   ctx.beginPath();
-  ctx.moveTo(x + w - pad - 92, contentTop + 102);
-  ctx.lineTo(x + w - pad - 36, contentTop + 102);
+  ctx.moveTo(x + w - pad - 92, finaleLineY);
+  ctx.lineTo(x + w - pad - 36, finaleLineY);
   ctx.stroke();
 
-  const photoR = 50;
-  const photoY = contentTop + 152;
+  const photoR = PHOTO_RADIUS;
   ctx.save();
   ctx.beginPath();
   ctx.arc(cx, photoY, photoR, 0, Math.PI * 2);
@@ -110,7 +127,6 @@ async function drawPassCard(
   ctx.font = '700 11px "DM Sans", system-ui, sans-serif';
   ctx.fillText(pass.teamName.toUpperCase(), cx, photoY + 102, w - pad * 2);
 
-  const metaY = photoY + 128;
   ctx.strokeStyle = "rgba(15,23,42,0.08)";
   ctx.beginPath();
   ctx.moveTo(x + pad, metaY);
@@ -145,7 +161,6 @@ async function drawPassCard(
   ctx.lineTo(cx, metaY + 38);
   ctx.stroke();
 
-  const qrY = metaY + 48;
   await drawQr(ctx, passUrl(pass), cx - 28, qrY, 56);
 
   ctx.textAlign = "center";
@@ -153,7 +168,6 @@ async function drawPassCard(
   ctx.font = '600 9px ui-monospace, monospace';
   ctx.fillText(`PASS ID ${pass.passId}`, cx, qrY + 72);
 
-  const footerTop = qrY + 88;
   ctx.strokeStyle = "rgba(15,23,42,0.08)";
   ctx.beginPath();
   ctx.moveTo(x + pad, footerTop);
@@ -174,14 +188,7 @@ async function drawPassCard(
 }
 
 function measurePassCardHeight(): number {
-  const pad = 24;
-  const brandTop = pad;
-  const contentTop = brandTop + 60;
-  const photoY = contentTop + 152;
-  const metaY = photoY + 128;
-  const qrY = metaY + 48;
-  const footerTop = qrY + 88;
-  return footerTop + 50 + pad;
+  return getPassCardLayout().height;
 }
 
 export async function renderPassCanvas(pass: PassRecord): Promise<HTMLCanvasElement> {
