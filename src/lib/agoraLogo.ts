@@ -53,12 +53,13 @@ export function drawAgoraBrand(ctx: CanvasRenderingContext2D, x: number, y: numb
 
 export function drawEchoSphereBrand(ctx: CanvasRenderingContext2D, rightX: number, y: number) {
   ctx.textAlign = "right";
+  ctx.textBaseline = "alphabetic";
   ctx.fillStyle = BRAND.ink;
   ctx.font = '800 20px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("EchoSphere", rightX, y + 18);
+  ctx.fillText("EchoSphere", rightX, y + 20);
   ctx.fillStyle = BRAND.muted;
   ctx.font = '600 9px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.hackathonLabel, rightX, y + 32);
+  ctx.fillText(EVENT.hackathonLabel, rightX, y + 36);
 }
 
 export async function loadAgoraLogo(): Promise<HTMLImageElement> {

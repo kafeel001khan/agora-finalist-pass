@@ -386,18 +386,32 @@ body {
 .badge-card__brands {
   position: relative;
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 26px auto;
+  column-gap: 10px;
+  row-gap: 4px;
+  align-items: end;
   margin-bottom: 14px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   text-align: left;
 }
 
+.badge-card__brands .agora-brand,
+.badge-card__brands .poster-brand--echo {
+  display: contents;
+}
+
+.badge-card__brands .agora-brand__lockup {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+}
+
 .badge-card__brands .agora-brand__word {
   font-size: 20px;
+  line-height: 1;
 }
 
 .badge-card__brands .agora-brand__wave {
@@ -406,19 +420,29 @@ body {
 }
 
 .badge-card__brands .agora-brand__label {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
   font-size: 8px;
-}
-
-.badge-card__brands .poster-brand--echo {
-  text-align: right;
+  line-height: 1.2;
 }
 
 .badge-card__brands .poster-brand__echo {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
   font-size: 16px;
+  line-height: 1;
+  text-align: right;
 }
 
 .badge-card__brands .poster-brand__hack {
+  grid-column: 2;
+  grid-row: 2;
   font-size: 7px;
+  line-height: 1.2;
+  margin-top: 0;
+  text-align: right;
 }
 
 .badge-card__footer {
