@@ -269,24 +269,35 @@ body {
 }
 
 .agora-brand {
-  display: block;
+  display: grid;
+  gap: 4px;
   width: fit-content;
   max-width: 100%;
 }
 
-.agora-brand__img {
+.agora-brand__lockup-img {
   display: block;
-  height: 46px;
+  height: 36px;
   width: auto;
+  max-width: 100%;
   object-fit: contain;
   object-position: left center;
 }
 
-.agora-brand__img--placeholder {
-  width: 150px;
-  height: 46px;
+.agora-brand__lockup-img--placeholder {
+  width: 170px;
+  height: 34px;
   background: linear-gradient(90deg, rgba(0, 174, 239, 0.15), rgba(0, 174, 239, 0.05));
   border-radius: 4px;
+}
+
+.agora-brand__label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  line-height: 1.2;
 }
 
 .poster-brand__name {
@@ -365,8 +376,8 @@ body {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 36px auto;
   column-gap: 10px;
   row-gap: 4px;
   align-items: end;
@@ -377,25 +388,29 @@ body {
   text-align: left;
 }
 
-.badge-card__brands .agora-brand {
-  grid-column: 1;
-  grid-row: 1 / 3;
-  align-self: end;
-  overflow: visible;
-  line-height: 0;
-}
-
-.badge-card__brands .agora-brand__img {
-  display: block;
-  height: 46px;
-  width: auto;
-  max-width: min(100%, 168px);
-  object-fit: contain;
-  object-position: left bottom;
-}
-
+.badge-card__brands .agora-brand,
 .badge-card__brands .poster-brand--echo {
   display: contents;
+}
+
+.badge-card__brands .agora-brand__lockup-img {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  justify-self: start;
+  width: auto;
+  max-width: 100%;
+  height: 36px;
+}
+
+.badge-card__brands .agora-brand__label {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--ink);
 }
 
 .badge-card__brands .poster-brand__echo {
@@ -718,5 +733,6 @@ body {
 
 @media (max-width: 767px) {
   .actions-grid.two { grid-template-columns: 1fr; }
-  .badge-card__brands .agora-brand__img { height: 42px; }
+  .agora-brand__lockup-img { height: 30px; }
+  .agora-brand__label { font-size: 10px; }
 }

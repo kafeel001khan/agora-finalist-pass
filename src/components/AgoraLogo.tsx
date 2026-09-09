@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import { getAgoraBrandDataUrl } from "../lib/agoraLogo";
+import {
+  AGORA_LABEL,
+  LOCKUP_DISPLAY_HEIGHT,
+  LOCKUP_DISPLAY_WIDTH,
+  LOCKUP_SRC,
+} from "../lib/agoraLogo";
 
 export function AgoraLogo() {
-  const [brandSrc, setBrandSrc] = useState<string | null>(null);
-
-  useEffect(() => {
-    getAgoraBrandDataUrl()
-      .then(setBrandSrc)
-      .catch(() => setBrandSrc(null));
-  }, []);
-
   return (
     <div className="agora-brand">
-      {brandSrc ? (
-        <img className="agora-brand__img" src={brandSrc} alt="agora Conversational AI Engine" />
-      ) : (
-        <div className="agora-brand__img agora-brand__img--placeholder" aria-hidden="true" />
-      )}
+      <img
+        className="agora-brand__lockup-img"
+        src={LOCKUP_SRC}
+        width={LOCKUP_DISPLAY_WIDTH}
+        height={LOCKUP_DISPLAY_HEIGHT}
+        alt="agora"
+        decoding="sync"
+      />
+      <p className="agora-brand__label">{AGORA_LABEL}</p>
     </div>
   );
 }
