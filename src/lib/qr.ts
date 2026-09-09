@@ -23,7 +23,8 @@ export async function drawQr(
   x: number,
   y: number,
   size: number,
+  pixelRatio = 1,
 ): Promise<void> {
-  const canvas = await renderQrCanvas(text, size);
+  const canvas = await renderQrCanvas(text, Math.round(size * pixelRatio));
   ctx.drawImage(canvas, x, y, size, size);
 }

@@ -1,4 +1,4 @@
-import { BRAND, EVENT } from "../config/event";
+import { BRAND, EVENT, LIMITS } from "../config/event";
 import type { PassRecord } from "../types/pass";
 import { drawAgoraBrand, drawEchoSphereBrand } from "./agoraLogo";
 import { loadImage } from "./image";
@@ -7,6 +7,7 @@ import { passUrl } from "./passStorage";
 import { drawQr } from "./qr";
 
 export const CARD_EXPORT_WIDTH = 640;
+export const CARD_EXPORT_SCALE = LIMITS.passExportScale;
 
 const CARD_PAD = 24;
 const PHOTO_RADIUS = 50;
@@ -57,6 +58,7 @@ async function drawPassCard(
   photo: HTMLImageElement,
   w: number,
   h: number,
+  exportScale = 1,
 ): Promise<void> {
   const x = 0;
   const y = 0;
@@ -158,7 +160,7 @@ async function drawPassCard(
   ctx.lineTo(cx, metaY + 38);
   ctx.stroke();
 
-  await drawQr(ctx, passUrl(pass), cx - 28, qrY, 56);
+  await drawQr(ctx, passUrl(pass), cx - 28, qrY, 56, exportScale);
 
   ctx.textAlign = "center";
   ctx.fillStyle = BRAND.muted;
@@ -191,20 +193,24 @@ function measurePassCardHeight(): number {
 export async function renderPassCanvas(pass: PassRecord): Promise<HTMLCanvasElement> {
   const cardW = CARD_EXPORT_WIDTH;
   const cardH = measurePassCardHeight();
+  const scale = CARD_EXPORT_SCALE;
   const canvas = document.createElement("canvas");
-  canvas.width = cardW;
-  canvas.height = cardH;
+  canvas.width = Math.round(cardW * scale);
+  canvas.height = Math.round(cardH * scale);
   const ctx = canvas.getContext("2d")!;
+  ctx.scale(scale, scale);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
 
   const photo = await loadImage(pass.photoDataUrl);
-  await drawPassCard(ctx, pass, photo, cardW, cardH);
+  await drawPassCard(ctx, pass, photo, cardW, cardH, scale);
 
   return canvas;
 }
 
 export async function getPassPngBlob(pass: PassRecord): Promise<Blob> {
   const canvas = await renderPassCanvas(pass);
-  const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, "image/png", 0.92));
+  const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, "image/png"));
   if (!blob) throw new Error("fail");
   return blob;
 }

@@ -44,7 +44,7 @@ export async function processPhotoFile(file: File, crop?: CropRect): Promise<str
   ctx.fillRect(0, 0, size, size);
   ctx.drawImage(img, source.x, source.y, source.size, source.size, 0, 0, size, size);
   const mime = canvas.toDataURL("image/webp").startsWith("data:image/webp") ? "image/webp" : "image/jpeg";
-  return canvas.toDataURL(mime, 0.85);
+  return canvas.toDataURL(mime, 0.92);
 }
 
 export async function loadImage(src: string): Promise<HTMLImageElement> {
