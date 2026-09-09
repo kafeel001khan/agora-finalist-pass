@@ -72,18 +72,6 @@ export function FinalistPassPreview({ name, teamName, passId, photoUrl }: Props)
       <div className="pass-poster__orb pass-poster__orb--b" aria-hidden="true" />
       <div className="pass-poster__orb pass-poster__orb--c" aria-hidden="true" />
 
-      <header className="pass-poster__header">
-        <AgoraLogo />
-        <div className="pass-poster__header-echo">
-          <div className="poster-brand poster-brand--echo">
-            <span className="poster-brand__echo">
-              Echo<span className="poster-brand__sphere">Sphere</span>
-            </span>
-            <span className="poster-brand__hack">{EVENT.hackathonLabel}</span>
-          </div>
-        </div>
-      </header>
-
       <div className="lanyard-unit">
         <svg className="lanyard-strap" viewBox="0 0 48 96" aria-hidden="true">
           <defs>
@@ -108,6 +96,17 @@ export function FinalistPassPreview({ name, teamName, passId, photoUrl }: Props)
 
         <article className="badge-card">
           <div className="badge-card__shine" aria-hidden="true" />
+
+          <div className="badge-card__brands">
+            <AgoraLogo />
+            <div className="poster-brand poster-brand--echo">
+              <span className="poster-brand__echo">
+                Echo<span className="poster-brand__sphere">Sphere</span>
+              </span>
+              <span className="poster-brand__hack">{EVENT.hackathonLabel}</span>
+            </div>
+          </div>
+
           <p className="badge-event">{EVENT.name}</p>
 
           <div className="badge-title">
@@ -152,15 +151,18 @@ export function FinalistPassPreview({ name, teamName, passId, photoUrl }: Props)
 
           <QR passId={passId} />
           <p className="badge-pass-id">PASS ID {passId}</p>
+
+          <footer className="badge-card__footer">
+            <BrandFooter />
+            <p className="badge-hashtag">#EchoSphere2026</p>
+          </footer>
         </article>
       </div>
 
       <footer className="pass-poster__footer">
         <div className="pass-poster__signoff">
           <p className="pass-signoff">{EVENT.signoff}</p>
-          <p className="pass-hashtag">#EchoSphere2026</p>
         </div>
-        <BrandFooter />
       </footer>
     </div>
   );

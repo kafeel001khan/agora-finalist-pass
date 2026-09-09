@@ -42,6 +42,6 @@ export const BRAND = {
 export const LIMITS = {
   maxPhotoBytes: 5 * 1024 * 1024,
   passPhotoSize: 480,
-  passExportWidth: 900,
-  passExportHeight: 1500,
+  passExportWidth: 704,
+  passExportHeight: 1044,
 } as const;

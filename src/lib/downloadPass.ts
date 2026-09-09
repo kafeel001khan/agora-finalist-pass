@@ -1,7 +1,7 @@
-import { BRAND, EVENT, LIMITS } from "../config/event";
+import { BRAND, EVENT } from "../config/event";
 import type { PassRecord } from "../types/pass";
+import { drawAgoraBrand, drawEchoSphereBrand } from "./agoraLogo";
 import { loadImage } from "./image";
-import { drawAgoraBrand, drawAgoraBrandEcho } from "./agoraLogo";
 import { loadKnoticLogo } from "./knoticLogo";
 import { passUrl } from "./passStorage";
 import { drawQr } from "./qr";
@@ -33,109 +33,61 @@ function fillGradientTextCentered(
   ctx.fillText(text, cx, y);
 }
 
-function drawRibbon(ctx: CanvasRenderingContext2D, w: number) {
-  ctx.save();
-  ctx.globalAlpha = 0.45;
-  ctx.fillStyle = "rgba(0,188,212,0.35)";
-  roundRect(ctx, -40, 130, 240, 52, 26);
-  ctx.fill();
-  ctx.fillStyle = "rgba(139,92,246,0.28)";
-  roundRect(ctx, w - 170, 190, 190, 42, 21);
-  ctx.fill();
-  ctx.restore();
-}
-
-function drawOrbs(ctx: CanvasRenderingContext2D, w: number, h: number) {
-  const orbs: [number, number, number, string][] = [
-    [w * 0.84, h * 0.12, 42, BRAND.cyan],
-    [w * 0.1, h * 0.24, 28, BRAND.indigo],
-    [w * 0.88, h * 0.62, 22, BRAND.violet],
-  ];
-  orbs.forEach(([cx, cy, r, color]) => {
-    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-    g.addColorStop(0, `${color}88`);
-    g.addColorStop(1, `${color}00`);
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.fill();
-  });
-}
-
-function drawLanyard(ctx: CanvasRenderingContext2D, cx: number, top: number) {
-  const strapW = 20;
-  const strapH = 72;
-  const strapX = cx - strapW / 2;
-
-  const fabric = ctx.createLinearGradient(strapX, top, strapX + strapW, top);
-  fabric.addColorStop(0, "#67e8f9");
-  fabric.addColorStop(0.5, "#22d3ee");
-  fabric.addColorStop(1, "#67e8f9");
-  roundRect(ctx, strapX, top, strapW, strapH, 6);
-  ctx.fillStyle = fabric;
-  ctx.fill();
-
-  [10, 26, 42, 58].forEach((offset) => {
-    roundRect(ctx, strapX + 2, top + offset, strapW - 4, 2, 1);
-    ctx.fillStyle = "rgba(255,255,255,0.28)";
-    ctx.fill();
-  });
-
-  roundRect(ctx, cx - 14, top + strapH, 28, 10, 3);
-  const clip = ctx.createLinearGradient(cx - 14, top + strapH, cx - 14, top + strapH + 10);
-  clip.addColorStop(0, "#e2e8f0");
-  clip.addColorStop(1, "#94a3b8");
-  ctx.fillStyle = clip;
-  ctx.fill();
-
-  roundRect(ctx, cx - 6, top + strapH + 10, 12, 6, 2);
-  ctx.fillStyle = "#64748b";
-  ctx.fill();
-}
-
-async function drawBadge(
+async function drawPassCard(
   ctx: CanvasRenderingContext2D,
   pass: PassRecord,
   photo: HTMLImageElement,
-  cx: number,
-  top: number,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
 ) {
-  const bw = 320;
-  const bh = 520;
-  const x = cx - bw / 2;
+  const cx = x + w / 2;
+  const pad = 28;
 
-  roundRect(ctx, x, top, bw, bh, 24);
-  ctx.fillStyle = "rgba(255,255,255,0.88)";
+  roundRect(ctx, x, y, w, h, 28);
+  ctx.fillStyle = "#ffffff";
   ctx.fill();
-  ctx.strokeStyle = "rgba(15,23,42,0.06)";
+  ctx.strokeStyle = "rgba(15,23,42,0.08)";
   ctx.lineWidth = 2;
   ctx.stroke();
 
+  const brandTop = y + pad;
+  drawAgoraBrand(ctx, x + pad, brandTop);
+  drawEchoSphereBrand(ctx, x + w - pad, brandTop);
+
+  ctx.strokeStyle = "rgba(15,23,42,0.08)";
+  ctx.beginPath();
+  ctx.moveTo(x + pad, y + pad + 52);
+  ctx.lineTo(x + w - pad, y + pad + 52);
+  ctx.stroke();
+
+  const contentTop = y + pad + 68;
   ctx.textAlign = "center";
   ctx.fillStyle = "#334155";
   ctx.font = '700 14px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.name, cx, top + 34);
+  ctx.fillText(EVENT.name, cx, contentTop);
 
-  fillGradientTextCentered(ctx, EVENT.passTitleGradient, cx, top + 78, 48, "900");
+  fillGradientTextCentered(ctx, EVENT.passTitleGradient, cx, contentTop + 44, 46, "900");
   ctx.fillStyle = BRAND.ink;
-  ctx.font = '900 58px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.passTitleBold, cx, top + 132);
+  ctx.font = '900 54px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(EVENT.passTitleBold, cx, contentTop + 96);
 
   ctx.strokeStyle = "rgba(15,23,42,0.18)";
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(x + 48, top + 152);
-  ctx.lineTo(x + 112, top + 152);
+  ctx.moveTo(x + pad + 40, contentTop + 112);
+  ctx.lineTo(x + pad + 100, contentTop + 112);
   ctx.stroke();
-  ctx.font = '700 13px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.passSubtitle, cx, top + 156);
+  ctx.font = '700 12px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(EVENT.passSubtitle, cx, contentTop + 116);
   ctx.beginPath();
-  ctx.moveTo(x + bw - 112, top + 152);
-  ctx.lineTo(x + bw - 48, top + 152);
+  ctx.moveTo(x + w - pad - 100, contentTop + 112);
+  ctx.lineTo(x + w - pad - 40, contentTop + 112);
   ctx.stroke();
 
-  const photoR = 56;
-  const photoY = top + 188;
+  const photoR = 54;
+  const photoY = contentTop + 168;
   ctx.save();
   ctx.beginPath();
   ctx.arc(cx, photoY, photoR, 0, Math.PI * 2);
@@ -149,97 +101,98 @@ async function drawBadge(
   ctx.stroke();
 
   ctx.fillStyle = BRAND.ink;
-  ctx.font = '800 28px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(pass.name, cx, photoY + 92, bw - 40);
+  ctx.font = '800 26px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(pass.name, cx, photoY + 88, w - pad * 2);
 
   ctx.fillStyle = "#334155";
-  ctx.font = '700 13px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(pass.teamName.toUpperCase(), cx, photoY + 122, bw - 40);
+  ctx.font = '700 12px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(pass.teamName.toUpperCase(), cx, photoY + 116, w - pad * 2);
 
-  const metaY = top + 360;
+  const metaY = photoY + 148;
   ctx.strokeStyle = "rgba(15,23,42,0.08)";
   ctx.beginPath();
-  ctx.moveTo(x + 24, metaY);
-  ctx.lineTo(x + bw - 24, metaY);
+  ctx.moveTo(x + pad, metaY);
+  ctx.lineTo(x + w - pad, metaY);
   ctx.stroke();
 
   ctx.textAlign = "left";
   ctx.fillStyle = BRAND.blue;
-  ctx.font = '700 16px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("▣", x + 34, metaY + 34);
+  ctx.font = '700 14px "DM Sans", system-ui, sans-serif';
+  ctx.fillText("▣", x + pad + 8, metaY + 30);
   ctx.fillStyle = BRAND.ink;
-  ctx.font = '800 12px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.date, x + 56, metaY + 24);
+  ctx.font = '800 11px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(EVENT.date, x + pad + 28, metaY + 22);
   ctx.fillStyle = BRAND.muted;
-  ctx.font = '600 10px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.day, x + 56, metaY + 40);
+  ctx.font = '600 9px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(EVENT.day, x + pad + 28, metaY + 36);
 
   ctx.textAlign = "right";
   ctx.fillStyle = BRAND.blue;
-  ctx.font = '700 16px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("◎", x + bw - 34, metaY + 34);
+  ctx.font = '700 14px "DM Sans", system-ui, sans-serif';
+  ctx.fillText("◎", x + w - pad - 8, metaY + 30);
   ctx.fillStyle = BRAND.ink;
-  ctx.font = '800 12px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.venueLine1, x + bw - 56, metaY + 24);
+  ctx.font = '800 11px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(EVENT.venueLine1, x + w - pad - 28, metaY + 22);
   ctx.fillStyle = BRAND.muted;
-  ctx.font = '600 10px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(EVENT.venueLine2, x + bw - 56, metaY + 40);
+  ctx.font = '600 9px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(EVENT.venueLine2, x + w - pad - 28, metaY + 36);
 
   ctx.strokeStyle = "rgba(15,23,42,0.12)";
   ctx.beginPath();
-  ctx.moveTo(cx, metaY + 8);
-  ctx.lineTo(cx, metaY + 52);
+  ctx.moveTo(cx, metaY + 6);
+  ctx.lineTo(cx, metaY + 44);
   ctx.stroke();
 
-  await drawQr(ctx, passUrl(pass), cx - 28, top + bh - 92, 56);
+  const qrY = metaY + 58;
+  await drawQr(ctx, passUrl(pass), cx - 30, qrY, 60);
 
   ctx.textAlign = "center";
   ctx.fillStyle = BRAND.muted;
   ctx.font = '600 10px ui-monospace, monospace';
-  ctx.fillText(`PASS ID ${pass.passId}`, cx, top + bh - 18);
+  ctx.fillText(`PASS ID ${pass.passId}`, cx, qrY + 84);
+
+  const footerY = y + h - pad - 36;
+  ctx.strokeStyle = "rgba(15,23,42,0.08)";
+  ctx.beginPath();
+  ctx.moveTo(x + pad, footerY - 12);
+  ctx.lineTo(x + w - pad, footerY - 12);
+  ctx.stroke();
+
+  const logo = await loadKnoticLogo();
+  ctx.fillStyle = BRAND.muted;
+  ctx.font = '500 10px "DM Sans", system-ui, sans-serif';
+  ctx.fillText("POWERED BY", cx, footerY);
+  const lh = 22;
+  const lw = (logo.naturalWidth / logo.naturalHeight) * lh;
+  ctx.drawImage(logo, cx - lw / 2, footerY + 6, lw, lh);
+
+  ctx.fillStyle = BRAND.blue;
+  ctx.font = '700 11px "DM Sans", system-ui, sans-serif';
+  ctx.fillText("#EchoSphere2026", cx, footerY + 38);
 }
 
 export async function renderPassCanvas(pass: PassRecord): Promise<HTMLCanvasElement> {
-  const w = LIMITS.passExportWidth;
-  const h = LIMITS.passExportHeight;
+  const cardW = 640;
+  const cardH = 980;
+  const margin = 32;
   const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
+  canvas.width = cardW + margin * 2;
+  canvas.height = cardH + margin * 2;
   const ctx = canvas.getContext("2d")!;
 
-  const bg = ctx.createLinearGradient(0, 0, 0, h);
-  bg.addColorStop(0, "#f8fbff");
-  bg.addColorStop(0.45, "#eef6ff");
+  const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  bg.addColorStop(0, "#eef6ff");
   bg.addColorStop(1, "#e8f0ff");
   ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, w, h);
-  drawRibbon(ctx, w);
-  drawOrbs(ctx, w, h);
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const headerY = 36;
-  const agoraBottom = drawAgoraBrand(ctx, 48, headerY);
-  drawAgoraBrandEcho(ctx, w, headerY + 8);
-
-  const cx = w / 2;
-  drawLanyard(ctx, cx, agoraBottom + 20);
+  ctx.save();
+  ctx.shadowColor = "rgba(37, 99, 235, 0.18)";
+  ctx.shadowBlur = 32;
+  ctx.shadowOffsetY = 12;
   const photo = await loadImage(pass.photoDataUrl);
-  await drawBadge(ctx, pass, photo, cx, agoraBottom + 120);
-
-  ctx.textAlign = "left";
-  ctx.fillStyle = BRAND.blue;
-  ctx.font = '600 34px "Pacifico", cursive';
-  ctx.fillText(EVENT.signoff, 48, h - 110);
-  ctx.font = '700 14px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("#EchoSphere2026", 48, h - 68);
-
-  const logo = await loadKnoticLogo();
-  ctx.textAlign = "right";
-  ctx.fillStyle = BRAND.muted;
-  ctx.font = '500 11px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("POWERED BY", w - 48, h - 92);
-  const lh = 26;
-  const lw = (logo.naturalWidth / logo.naturalHeight) * lh;
-  ctx.drawImage(logo, w - 48 - lw, h - 82, lw, lh);
+  await drawPassCard(ctx, pass, photo, margin, margin, cardW, cardH);
+  ctx.restore();
 
   return canvas;
 }

@@ -17,7 +17,7 @@ export function PassActions({ pass }: { pass: PassRecord }) {
       <div className="success-banner">
         <strong>✓ Your pass is ready</strong>
         <p style={{ marginTop: 6 }}>
-          Download your pass PNG and share with {`#EchoSphere2026 #KNOTiC`}.
+          Download the pass card PNG — it includes Agora, EchoSphere, and KNOTiC branding for LinkedIn.
         </p>
       </div>
       <div className="actions-grid two">
@@ -27,7 +27,7 @@ export function PassActions({ pass }: { pass: PassRecord }) {
           onClick={async () => {
             try {
               await downloadPassPng(pass);
-              setMsg("Pass downloaded. Attach it to your LinkedIn or X post.");
+              setMsg("Pass card downloaded. Attach it to your LinkedIn post.");
             } catch {
               setMsg("Download failed.");
             }
@@ -60,7 +60,7 @@ export function PassActions({ pass }: { pass: PassRecord }) {
           className="btn-secondary"
           onClick={() => {
             window.open(getLinkedInIntentUrl(pass), "_blank", "noopener,noreferrer");
-            setMsg("LinkedIn opened — attach your pass image.");
+            setMsg("LinkedIn opened — attach your downloaded pass card image.");
           }}
         >
           Post on LinkedIn

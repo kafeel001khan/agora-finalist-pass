@@ -371,16 +371,76 @@ body {
   position: relative;
   width: min(100%, 310px);
   margin-top: -2px;
-  padding: 24px 22px 20px;
+  padding: 18px 18px 16px;
   border-radius: 22px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow:
     0 18px 40px rgba(37, 99, 235, 0.14),
     0 0 0 1px rgba(15, 23, 42, 0.04) inset;
+}
+
+.badge-card__brands {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  text-align: left;
+}
+
+.badge-card__brands .agora-brand__word {
+  font-size: 20px;
+}
+
+.badge-card__brands .agora-brand__wave {
+  width: 44px;
+  height: 26px;
+}
+
+.badge-card__brands .agora-brand__label {
+  font-size: 8px;
+}
+
+.badge-card__brands .poster-brand--echo {
+  text-align: right;
+}
+
+.badge-card__brands .poster-brand__echo {
+  font-size: 16px;
+}
+
+.badge-card__brands .poster-brand__hack {
+  font-size: 7px;
+}
+
+.badge-card__footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.badge-card__footer .brand-footer {
+  justify-items: center;
+}
+
+.badge-hashtag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--blue);
 }
 
 .badge-card__shine {
