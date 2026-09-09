@@ -269,32 +269,24 @@ body {
 }
 
 .agora-brand {
-  display: grid;
-  gap: 4px;
+  display: block;
   width: fit-content;
   max-width: 100%;
 }
 
-.agora-brand__lockup-img {
+.agora-brand__img {
   display: block;
-  height: 32px;
+  height: 46px;
   width: auto;
   object-fit: contain;
   object-position: left center;
 }
 
-.agora-brand__lockup-img--placeholder {
-  width: 120px;
+.agora-brand__img--placeholder {
+  width: 150px;
+  height: 46px;
   background: linear-gradient(90deg, rgba(0, 174, 239, 0.15), rgba(0, 174, 239, 0.05));
   border-radius: 4px;
-}
-
-.agora-brand__label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #334155;
-  line-height: 1.2;
 }
 
 .poster-brand__name {
@@ -374,7 +366,7 @@ body {
   z-index: 1;
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-rows: 26px auto;
+  grid-template-rows: 38px auto;
   column-gap: 10px;
   row-gap: 4px;
   align-items: end;
@@ -384,25 +376,19 @@ body {
   text-align: left;
 }
 
-.badge-card__brands .agora-brand,
+.badge-card__brands .agora-brand {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  align-self: end;
+}
+
+.badge-card__brands .agora-brand__img {
+  height: 38px;
+  object-position: left bottom;
+}
+
 .badge-card__brands .poster-brand--echo {
   display: contents;
-}
-
-.badge-card__brands .agora-brand__lockup-img {
-  grid-column: 1;
-  grid-row: 1;
-  align-self: end;
-  height: 26px;
-}
-
-.badge-card__brands .agora-brand__label {
-  grid-column: 1;
-  grid-row: 2;
-  margin: 0;
-  font-size: 8px;
-  line-height: 1.2;
-  color: #334155;
 }
 
 .badge-card__brands .poster-brand__echo {
@@ -725,6 +711,5 @@ body {
 
 @media (max-width: 767px) {
   .actions-grid.two { grid-template-columns: 1fr; }
-  .agora-brand__lockup-img { height: 28px; }
-  .agora-brand__label { font-size: 10px; }
+  .badge-card__brands .agora-brand__img { height: 34px; }
 }

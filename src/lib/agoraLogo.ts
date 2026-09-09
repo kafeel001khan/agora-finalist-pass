@@ -1,17 +1,16 @@
 import { BRAND, EVENT } from "../config/event";
 import { loadImage } from "./image";
 
-const LOCKUP_SRC = "/agora-lockup-raw.jpg";
+const BRAND_SRC = "/agora-brand-raw.png";
 
 export const AGORA_LABEL = "Conversational AI Engine";
 export const AGORA_CYAN = "#00aeef";
 
-const LOCKUP_HEIGHT = 26;
-const LABEL_GAP = 10;
+const BRAND_HEIGHT = 38;
 
-let cachedLockup: HTMLImageElement | null = null;
+let cachedBrand: HTMLImageElement | null = null;
 
-function processLockupForLightBg(img: HTMLImageElement): HTMLImageElement {
+function processBrandForLightBg(img: HTMLImageElement): HTMLImageElement {
   const canvas = document.createElement("canvas");
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
@@ -27,15 +26,15 @@ function processLockupForLightBg(img: HTMLImageElement): HTMLImageElement {
     const g = data[i + 1];
     const b = data[i + 2];
 
-    if (r < 28 && g < 28 && b < 28) {
+    if (r < 30 && g < 30 && b < 30) {
       data[i + 3] = 0;
       continue;
     }
 
-    if (r > 210 && g > 210 && b > 210) {
-      data[i] = 100;
-      data[i + 1] = 116;
-      data[i + 2] = 139;
+    if (r > 200 && g > 200 && b > 200) {
+      data[i] = 15;
+      data[i + 1] = 23;
+      data[i + 2] = 42;
       data[i + 3] = 255;
     }
   }
@@ -54,18 +53,18 @@ async function waitForImage(img: HTMLImageElement): Promise<void> {
   });
 }
 
-export async function loadAgoraLockup(): Promise<HTMLImageElement> {
-  if (cachedLockup) return cachedLockup;
+export async function loadAgoraBrand(): Promise<HTMLImageElement> {
+  if (cachedBrand) return cachedBrand;
 
-  const source = await loadImage(LOCKUP_SRC);
-  const processed = processLockupForLightBg(source);
+  const source = await loadImage(BRAND_SRC);
+  const processed = processBrandForLightBg(source);
   await waitForImage(processed);
-  cachedLockup = processed;
+  cachedBrand = processed;
   return processed;
 }
 
-export async function getAgoraLockupDataUrl(): Promise<string> {
-  const logo = await loadAgoraLockup();
+export async function getAgoraBrandDataUrl(): Promise<string> {
+  const logo = await loadAgoraBrand();
   return logo.src;
 }
 
@@ -73,19 +72,13 @@ export async function drawAgoraBrand(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  lockupHeight = LOCKUP_HEIGHT,
+  brandHeight = BRAND_HEIGHT,
 ): Promise<void> {
-  const lockup = await loadAgoraLockup();
-  const aspect = lockup.naturalWidth / lockup.naturalHeight;
-  const h = lockupHeight;
+  const brand = await loadAgoraBrand();
+  const aspect = brand.naturalWidth / brand.naturalHeight;
+  const h = brandHeight;
   const w = h * aspect;
-  ctx.drawImage(lockup, x, y, w, h);
-
-  ctx.textAlign = "left";
-  ctx.textBaseline = "alphabetic";
-  ctx.fillStyle = "#334155";
-  ctx.font = '700 8px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(AGORA_LABEL, x, y + h + LABEL_GAP);
+  ctx.drawImage(brand, x, y, w, h);
 }
 
 export function drawEchoSphereBrand(ctx: CanvasRenderingContext2D, rightX: number, y: number) {

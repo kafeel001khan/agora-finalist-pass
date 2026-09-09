@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["icons/*.svg", "favicon.svg", "knotic-logo.png", "agora-lockup-raw.jpg"],
+      includeAssets: ["icons/*.svg", "favicon.svg", "knotic-logo.png", "agora-brand-raw.png"],
       manifest: {
         name: "EchoSphere Grand Finalist Pass",
         short_name: "EchoSphere",
