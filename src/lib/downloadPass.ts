@@ -74,7 +74,7 @@ async function drawPassCard(
   ctx.stroke();
 
   const { brandTop, contentTop, finaleTextY, photoY, metaY, qrY, footerTop } = layout;
-  drawAgoraBrand(ctx, x + pad, brandTop);
+  await drawAgoraBrand(ctx, x + pad, brandTop);
   drawEchoSphereBrand(ctx, x + w - pad, brandTop);
 
   ctx.strokeStyle = "rgba(15,23,42,0.08)";

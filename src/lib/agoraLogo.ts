@@ -1,54 +1,91 @@
 import { BRAND, EVENT } from "../config/event";
+import { loadImage } from "./image";
+
+const LOCKUP_SRC = "/agora-lockup-raw.jpg";
 
 export const AGORA_LABEL = "Conversational AI Engine";
+export const AGORA_CYAN = "#00aeef";
 
-function roundBar(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
-  const r = 1;
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-  ctx.fill();
+const LOCKUP_HEIGHT = 26;
+const LABEL_GAP = 10;
+
+let cachedLockup: HTMLImageElement | null = null;
+
+function processLockupForLightBg(img: HTMLImageElement): HTMLImageElement {
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return img;
+
+  ctx.drawImage(img, 0, 0);
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const { data } = imageData;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+
+    if (r < 28 && g < 28 && b < 28) {
+      data[i + 3] = 0;
+      continue;
+    }
+
+    if (r > 210 && g > 210 && b > 210) {
+      data[i] = 100;
+      data[i + 1] = 116;
+      data[i + 2] = 139;
+      data[i + 3] = 255;
+    }
+  }
+
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new Image();
+  processed.src = canvas.toDataURL("image/png");
+  return processed;
 }
 
-export function drawAgoraBrand(ctx: CanvasRenderingContext2D, x: number, y: number): number {
+async function waitForImage(img: HTMLImageElement): Promise<void> {
+  if (img.complete) return;
+  await new Promise<void>((resolve, reject) => {
+    img.onload = () => resolve();
+    img.onerror = () => reject(new Error("agora_logo_failed"));
+  });
+}
+
+export async function loadAgoraLockup(): Promise<HTMLImageElement> {
+  if (cachedLockup) return cachedLockup;
+
+  const source = await loadImage(LOCKUP_SRC);
+  const processed = processLockupForLightBg(source);
+  await waitForImage(processed);
+  cachedLockup = processed;
+  return processed;
+}
+
+export async function getAgoraLockupDataUrl(): Promise<string> {
+  const logo = await loadAgoraLockup();
+  return logo.src;
+}
+
+export async function drawAgoraBrand(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  lockupHeight = LOCKUP_HEIGHT,
+): Promise<void> {
+  const lockup = await loadAgoraLockup();
+  const aspect = lockup.naturalWidth / lockup.naturalHeight;
+  const h = lockupHeight;
+  const w = h * aspect;
+  ctx.drawImage(lockup, x, y, w, h);
+
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
-
-  ctx.fillStyle = "#22d3ee";
-  ctx.font = '800 22px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("agora", x, y + 20);
-
-  const wordW = ctx.measureText("agora").width;
-  const iconX = x + wordW + 4;
-  const bars = [
-    [0, 12, 6],
-    [4, 8, 14],
-    [8, 4, 22],
-    [12, 7, 17],
-    [16, 11, 9],
-  ] as const;
-
-  ctx.fillStyle = "#22d3ee";
-  ctx.font = '700 18px "DM Sans", system-ui, sans-serif';
-  ctx.fillText("{", iconX, y + 20);
-
-  bars.forEach(([dx, by, bh]) => {
-    ctx.fillStyle = bh > 18 ? "#cbd5e1" : bh > 10 ? "#94a3b8" : "#64748b";
-    roundBar(ctx, iconX + 11 + dx, y + by, 2, bh);
-  });
-
-  ctx.fillStyle = "#22d3ee";
-  ctx.fillText("}", iconX + 32, y + 20);
-
-  ctx.fillStyle = "#1e293b";
-  ctx.font = '700 10px "DM Sans", system-ui, sans-serif';
-  ctx.fillText(AGORA_LABEL, x, y + 36);
-
-  return y + 42;
+  ctx.fillStyle = "#334155";
+  ctx.font = '700 8px "DM Sans", system-ui, sans-serif';
+  ctx.fillText(AGORA_LABEL, x, y + h + LABEL_GAP);
 }
 
 export function drawEchoSphereBrand(ctx: CanvasRenderingContext2D, rightX: number, y: number) {
@@ -60,9 +97,4 @@ export function drawEchoSphereBrand(ctx: CanvasRenderingContext2D, rightX: numbe
   ctx.fillStyle = BRAND.muted;
   ctx.font = '600 9px "DM Sans", system-ui, sans-serif';
   ctx.fillText(EVENT.hackathonLabel, rightX, y + 36);
-}
-
-export async function loadAgoraLogo(): Promise<HTMLImageElement> {
-  const { loadImage } = await import("./image");
-  return loadImage("/agora-logo.png");
 }
