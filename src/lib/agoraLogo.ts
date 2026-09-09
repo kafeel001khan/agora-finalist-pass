@@ -6,7 +6,7 @@ const BRAND_SRC = "/agora-brand-raw.png";
 export const AGORA_LABEL = "Conversational AI Engine";
 export const AGORA_CYAN = "#00aeef";
 
-const BRAND_HEIGHT = 38;
+const BRAND_HEIGHT = 46;
 
 let cachedBrand: HTMLImageElement | null = null;
 
@@ -25,13 +25,19 @@ function processBrandForLightBg(img: HTMLImageElement): HTMLImageElement {
     const r = data[i];
     const g = data[i + 1];
     const b = data[i + 2];
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const sat = max === 0 ? 0 : (max - min) / max;
+    const isCyan = b > 120 && g > 80 && b >= g - 12 && r < 110;
 
-    if (r < 30 && g < 30 && b < 30) {
+    if (max < 42 && sat < 0.35) {
       data[i + 3] = 0;
       continue;
     }
 
-    if (r > 200 && g > 200 && b > 200) {
+    if (isCyan) continue;
+
+    if (min > 175 && sat < 0.22) {
       data[i] = 15;
       data[i + 1] = 23;
       data[i + 2] = 42;
