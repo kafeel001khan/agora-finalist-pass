@@ -4,12 +4,12 @@ import type { PassRecord } from "../types/pass";
 
 export function buildLinkedInCaption(pass: PassRecord): string {
   return [
-    "I'm a Finalist ⚡",
+    "I'm a Grand Finalist ⚡",
     "",
     `${EVENT.nameDisplay} ${EVENT.passSubtitle} — ${EVENT.passTitleGradient} ${EVENT.passTitleBold}`,
     `${EVENT.date} · ${EVENT.venueLine1} ${EVENT.venueLine2}`,
     "",
-    `Finalist: ${pass.name}`,
+    `Grand Finalist: ${pass.name}`,
     `Team: ${pass.teamName}`,
     `Pass ID: ${pass.passId}`,
     "",
@@ -24,7 +24,7 @@ export function buildLinkedInCaption(pass: PassRecord): string {
 
 export function buildTwitterCaption(pass: PassRecord): string {
   return [
-    `Finalist Pass ✓ ${EVENT.nameDisplay} ⚡`,
+    `Grand Finalist Pass ✓ ${EVENT.nameDisplay} ⚡`,
     `${pass.name} · ${pass.teamName}`,
     `${pass.passId} · ${EVENT.date}`,
     "",

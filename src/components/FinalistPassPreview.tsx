@@ -65,7 +65,7 @@ export function FinalistPassPreview({ name, teamName, passId, photoUrl }: Props)
   const displayTeam = teamName.trim() || "TEAM NAME";
 
   return (
-    <div className="pass-poster" aria-label="Finalist pass preview">
+    <div className="pass-poster" aria-label="Grand Finalist pass preview">
       <div className="pass-poster__ribbon pass-poster__ribbon--a" aria-hidden="true" />
       <div className="pass-poster__ribbon pass-poster__ribbon--b" aria-hidden="true" />
       <div className="pass-poster__orb pass-poster__orb--a" aria-hidden="true" />

@@ -17,7 +17,7 @@ export function PassPage() {
     return (
       <div style={{ maxWidth: 480, margin: "0 auto" }}>
         <h1 className="hero-title">Pass not found</h1>
-        <p className="hero-subtitle">Create a new finalist pass on this device.</p>
+        <p className="hero-subtitle">Create a new grand finalist pass on this device.</p>
         <Link className="btn-secondary" to="/">
           Create pass
         </Link>

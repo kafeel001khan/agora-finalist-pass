@@ -6,7 +6,7 @@ export const EVENT = {
   name: "ECHOSPHERE 2026",
   nameDisplay: "EchoSphere",
   hackathonLabel: "HACKATHON 2026",
-  passTitleGradient: "FINALIST",
+  passTitleGradient: "GRAND FINALIST",
   passTitleBold: "PASS",
   passSubtitle: "FINALE",
   sideTagline: "IDEAS · PEOPLE · CONVERSATIONS · REAL IMPACT",
@@ -21,7 +21,7 @@ export const EVENT = {
   signoff: "See you at the finals!",
   passIdPrefix: "ECHO-GGN",
   shareHashtags: "#EchoSphere2026 #KNOTiC",
-  subtitle: "Create your EchoSphere 2026 Finalist Pass — powered by Agora",
+  subtitle: "Create your EchoSphere 2026 Grand Finalist Pass — powered by Agora",
 } as const;
 
 export const BRAND = {

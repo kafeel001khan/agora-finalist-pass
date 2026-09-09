@@ -10,9 +10,9 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["icons/*.svg", "favicon.svg", "knotic-logo.png", "agora-logo.png"],
       manifest: {
-        name: "EchoSphere Finalist Pass",
+        name: "EchoSphere Grand Finalist Pass",
         short_name: "EchoSphere",
-        description: "Create your EchoSphere 2026 Finalist Pass",
+        description: "Create your EchoSphere 2026 Grand Finalist Pass",
         theme_color: "#020617",
         background_color: "#020617",
         display: "standalone",

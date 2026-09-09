@@ -492,9 +492,9 @@ body {
 }
 
 .badge-title__gradient {
-  font-size: clamp(1.35rem, 5.5vw, 1.65rem);
+  font-size: clamp(1.05rem, 4.6vw, 1.28rem);
   font-weight: 900;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1;
   background: linear-gradient(90deg, var(--blue), var(--violet));
   -webkit-background-clip: text;

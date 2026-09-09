@@ -39,7 +39,7 @@ export function FinalistForm({
       <h1 className="hero-title">
         Create Your
         <br />
-        <span className="grad">Finalist Pass</span>
+        <span className="grad">Grand Finalist Pass</span>
       </h1>
       <p className="hero-subtitle">{EVENT.subtitle}</p>
 
@@ -48,7 +48,7 @@ export function FinalistForm({
           {error === "photo_invalid" || error === "photo_too_large"
             ? "Please upload a JPG, PNG or WebP under 5MB."
             : error === "name_required"
-              ? "Enter your finalist name."
+              ? "Enter your grand finalist name."
               : error === "team_required"
                 ? "Enter your team name."
                 : error === "photo_required"
@@ -65,7 +65,7 @@ export function FinalistForm({
       >
         <div className="field">
           <label className="field-label" htmlFor="name">
-            Finalist name
+            Grand Finalist name
           </label>
           <input
             id="name"
