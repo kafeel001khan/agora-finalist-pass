@@ -1,0 +1,47 @@
+export const EVENT = {
+  id: "echosphere-2026",
+  partner: "Agora",
+  partnerDisplay: "agora",
+  partnerTagline: "CONVERSATIONS THAT BUILD TOMORROW",
+  name: "ECHOSPHERE 2026",
+  nameDisplay: "EchoSphere",
+  hackathonLabel: "HACKATHON 2026",
+  passTitleGradient: "FINALIST",
+  passTitleBold: "PASS",
+  passSubtitle: "FINALE",
+  sideTagline: "IDEAS · PEOPLE · CONVERSATIONS · REAL IMPACT",
+  sideFooter: "A MORE OPEN INTELLIGENT TOMORROW",
+  date: "12 SEP 2026",
+  dateLong: "12 September 2026",
+  day: "SATURDAY",
+  venueLine1: "MICROSOFT OFFICE",
+  venueLine2: "GURGAON",
+  city: "GURGAON",
+  country: "INDIA",
+  signoff: "See you at the finals!",
+  passIdPrefix: "ECHO-GGN",
+  shareHashtags: "#EchoSphere2026 #KNOTiC",
+  subtitle: "Create your EchoSphere 2026 Finalist Pass — powered by Agora",
+} as const;
+
+export const BRAND = {
+  cyan: "#00bcd4",
+  blue: "#2563eb",
+  indigo: "#6366f1",
+  violet: "#8b5cf6",
+  glow: "rgba(56, 189, 248, 0.45)",
+  bg: "#eef6ff",
+  bgCard: "rgba(255,255,255,0.42)",
+  white: "#ffffff",
+  ink: "#0f172a",
+  muted: "#64748b",
+  faint: "#94a3b8",
+  line: "rgba(255,255,255,0.55)",
+} as const;
+
+export const LIMITS = {
+  maxPhotoBytes: 5 * 1024 * 1024,
+  passPhotoSize: 480,
+  passExportWidth: 900,
+  passExportHeight: 1500,
+} as const;
